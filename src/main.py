@@ -2,6 +2,7 @@ import argparse
 from os import path
 import re
 from operator import itemgetter
+
 from modules.IteratorClass import Iterator
 from functools import partial
 
@@ -65,6 +66,16 @@ def pretty_print(level_data):
         if entity['child']:
             pretty_print(entity['child'])
 
+def level_order_traversal_tree(store, metadata, level_req):
+    for entity in metadata:
+        level_got = entity['BookmarkLevel']
+
+        if level_got == level_req:
+            store.append(entity)
+
+        if level_got < level_req:
+            level_order_traversal_tree(store, entity['child'], level_req)
+
 def main():
     # driver code
 
@@ -97,6 +108,14 @@ def main():
 
     if args.verbose:
         pretty_print(tree_store)
+
+    # get chapter on args.level
+    # level-order traversal
+    level_store = []
+    level_order_traversal_tree(level_store, tree_store, level)
+
+    if args.verbose:
+        pretty_print(level_store)
 
     # split pdfs and write them
 
