@@ -1,9 +1,9 @@
 import argparse
 from os import path
-from collections import defaultdict
 import re
 from operator import itemgetter
 from modules.IteratorClass import Iterator
+from functools import partial
 
 first_element = itemgetter(0)
 
@@ -33,34 +33,37 @@ def parse_metadata(file_path):
 
     return store, total_pages
 
-def create_meta_tree(store, level, iterator_obj):
+def create_meta_tree(level, iterator_obj, store):
 
     while iterator_obj.has_next:
-        title, level_got, page_number = iterator_obj.peek()
-        # print(title, level_got, page_number)
-        d = defaultdict(list)
-        d["title"] = title
-        d["level"] = level_got 
-        d["page_number"] = page_number
+        d = iterator_obj.peek()
+
+        prep_create_meta_tree = partial(create_meta_tree, d['BookmarkLevel'], iterator_obj)
+
+        level_got = d['BookmarkLevel']
+
         if level == level_got:
             # same level
             store.append(d)
             next(iterator_obj)
-            create_meta_tree(store, level_got, iterator_obj)
+            prep_create_meta_tree(store)
 
         if level < level_got:
             store[-1]['child'].append(d)
             next(iterator_obj)
-            create_meta_tree(store[-1]['child'], level_got, iterator_obj)
+            prep_create_meta_tree(store[-1]['child'])
 
         if level > level_got:
             break
 
 def pretty_print(level_data):
     for entity in level_data:
-        print(" " * entity['level'], entity['title'])
+        print(" " * 2 * entity['BookmarkLevel'], end=" ")
+        print("|", end="")
+        print("--", entity['BookmarkTitle'])
         if entity['child']:
             pretty_print(entity['child'])
+
 def main():
     # driver code
 
@@ -89,7 +92,7 @@ def main():
 
     tree_store = []
 
-    create_meta_tree(store=tree_store, level=1, iterator_obj=iterator_obj)
+    create_meta_tree(level=1, iterator_obj=iterator_obj, store=tree_store)
 
     # for i in range(5):
     pretty_print(tree_store)

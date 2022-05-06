@@ -1,9 +1,11 @@
+from collections import defaultdict
 from operator import itemgetter
 import re
 
 first_element = itemgetter(0)
+second_element = itemgetter(1)
 
-find_int = re.compile("(\d+)")
+find_pair = re.compile("(\w+):\s?(.*)")
 
 class Iterator:
     
@@ -15,7 +17,14 @@ class Iterator:
 
     def peek(self):
         current = self.meta_data[self.current + 1] 
-        return (int(first_element(find_int.findall(current[i]))) if i else current[i] for i in range(len(current)))
+        d = defaultdict(list)
+        for i in range(len(current)):
+            found = first_element(find_pair.findall(current[i]))
+            if i:
+                d[first_element(found)] = int(second_element(found))
+            else:
+                d[first_element(found)] = second_element(found)
+        return d
 
     def __next__(self):
         self.current += 1 
