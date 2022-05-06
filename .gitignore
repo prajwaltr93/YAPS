@@ -3,3 +3,4 @@ bin/
 lib/
 *.txt
 *.cfg
+**/__pycache__/
