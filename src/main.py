@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("input_file", help="path to PDF file")
 parser.add_argument("-o", "--output_dir", help="directory to store split PDF's")
 parser.add_argument("-l", "--level", help="level to use to split PDF's", type=int, default=1)
+parser.add_argument("-v", "--verbose", help="print created meta tree", action="store_true")
 parser.add_argument("metadata", help="path to metadata.txt")
 
 def get_title(line):
@@ -94,8 +95,8 @@ def main():
 
     create_meta_tree(level=1, iterator_obj=iterator_obj, store=tree_store)
 
-    # for i in range(5):
-    pretty_print(tree_store)
+    if args.verbose:
+        pretty_print(tree_store)
 
     # split pdfs and write them
 
