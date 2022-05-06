@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "Python: zrc/main.py",
+            "type": "python",
+            "request": "launch",
+            "program": "src/main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "/path/to/pdf",
+                "metadata.txt"
+            ]
+        }
+    ]
+}
