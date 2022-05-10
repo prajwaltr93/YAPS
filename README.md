@@ -42,3 +42,4 @@ pdftk input_file.pdf dump_data >> metadata.txt
 - [ ] document tree creation and traversal
 - [ ] fix page range bug
 - [ ] fix chapter names with special characters
+- [ ] refactor code 
