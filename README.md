@@ -1,6 +1,6 @@
 # YAPS - Yet Another PDF Splitter
 
-Splits PDF's based on Bookmarks.
+Splits PDF based on Bookmarks.
 
 ## Usage
 
@@ -43,3 +43,4 @@ pdftk input_file.pdf dump_data >> metadata.txt
 - [ ] fix page range bug
 - [ ] fix chapter names with special characters
 - [ ] refactor code 
+- [ ] option to include metadata with split pdf's 
