@@ -82,7 +82,7 @@ def level_order_traversal_tree(store, metadata, level_req):
             if len(store):
                 if "BookmarkLastPageNumber" not in store[-1]:
                     if index <= (len(metadata) - 2): 
-                        store[-1]["BookmarkLastPageNumber"] = metadata[index + 1]["BookmarkPageNumber"] + 1 
+                        store[-1]["BookmarkLastPageNumber"] = metadata[index + 1]["BookmarkPageNumber"]
 
 def main():
     # driver code
