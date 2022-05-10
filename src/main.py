@@ -17,6 +17,7 @@ parser.add_argument("-o", "--output_dir", help="directory to store split PDF's")
 parser.add_argument("-l", "--level", help="level to use to split PDF's", type=int, default=1)
 parser.add_argument("-v", "--verbose", help="print created meta tree", action="store_true")
 parser.add_argument("metadata", help="path to metadata.txt")
+parser.add_argument("-d", "--dryrun", help="don't write pdf's, just show chapters traversed", action="store_true", default=False)
 
 def get_title(line):
     return first_element(line.split(":"))
@@ -127,6 +128,7 @@ def main():
     if args.verbose:
         pretty_print(level_store)
 
+    if not args.dryrun:
     # split pdfs and write them
     if not output_dir_path:
         output_dir_path = f"{input_file_path}_{level}"
