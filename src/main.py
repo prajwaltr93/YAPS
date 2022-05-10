@@ -146,4 +146,7 @@ def main():
             out_writer.write(out_file)
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(f"[ERROR] : {str(e)}")
