@@ -1,7 +1,8 @@
 import argparse
-from os import path
+from os import path, mkdir
 import re
 from operator import itemgetter
+from PyPDF2 import PdfFileReader, PdfFileWriter
 
 from modules.IteratorClass import Iterator
 from functools import partial
@@ -81,7 +82,7 @@ def level_order_traversal_tree(store, metadata, level_req):
             if len(store):
                 if "BookmarkLastPageNumber" not in store[-1]:
                     if index <= (len(metadata) - 2): 
-                        store[-1]["BookmarkLastPageNumber"] = metadata[index + 1]["BookmarkPageNumber"] 
+                        store[-1]["BookmarkLastPageNumber"] = metadata[index + 1]["BookmarkPageNumber"] + 1 
 
 def main():
     # driver code
@@ -121,14 +122,27 @@ def main():
     level_store = []
     level_order_traversal_tree(level_store, tree_store, level)
     if "BookmarkLastPageNumber" not in level_store[-1]:
-        level_store[-1]['BookmarkLastPageNumber'] = total_pages
+        level_store[-1]['BookmarkLastPageNumber'] = int(total_pages)
 
     if args.verbose:
         pretty_print(level_store)
 
     # split pdfs and write them
+    if not output_dir_path:
+        output_dir_path = f"{input_file_path}_{level}"
+        if not path.exists(output_dir_path):
+            mkdir(output_dir_path)
 
-    # clean up and close 
+    input_file = PdfFileReader(input_file_path) 
+
+    for l_s in level_store:
+        with open(path.join(output_dir_path, l_s['BookmarkTitle'] + ".pdf"), "wb") as out_file:
+            out_writer = PdfFileWriter()
+            for page_number in range(l_s['BookmarkPageNumber'], l_s['BookmarkLastPageNumber']):
+                page_got = input_file.pages[page_number]
+                out_writer.addPage(page_got)
+
+            out_writer.write(out_file)
 
 if __name__ == "__main__":
     main()

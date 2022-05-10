@@ -4,3 +4,4 @@ lib/
 *.txt
 *.cfg
 **/__pycache__/
+share/
