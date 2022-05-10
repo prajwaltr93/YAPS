@@ -139,7 +139,8 @@ def main():
         input_file = PdfFileReader(input_file_path) 
 
         for l_s in level_store:
-            with open(path.join(output_dir_path, l_s['BookmarkTitle'] + ".pdf"), "wb") as out_file:
+            title_prep = l_s['BookmarkTitle'].replace("/", " or ")
+            with open(path.join(output_dir_path, title_prep + ".pdf"), "wb") as out_file:
                 out_writer = PdfFileWriter()
                 for page_number in range(l_s['BookmarkPageNumber'], l_s['BookmarkLastPageNumber']):
                     # 0 based indexing of pages, compared to real-word page numbers
