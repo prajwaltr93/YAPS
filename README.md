@@ -44,3 +44,4 @@ pdftk input_file.pdf dump_data >> metadata.txt
 - [ ] fix chapter names with special characters
 - [ ] refactor code 
 - [ ] option to include metadata with split pdf's 
+- [ ] use multi- threading or processing to speed up writing pdf's

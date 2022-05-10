@@ -123,30 +123,30 @@ def main():
     level_store = []
     level_order_traversal_tree(level_store, tree_store, level)
     if level_store:
-    if "BookmarkLastPageNumber" not in level_store[-1]:
-        level_store[-1]['BookmarkLastPageNumber'] = int(total_pages)
+        if "BookmarkLastPageNumber" not in level_store[-1]:
+            level_store[-1]['BookmarkLastPageNumber'] = int(total_pages)
 
     if args.verbose:
         pretty_print(level_store)
 
     if not args.dryrun:
-    # split pdfs and write them
-    if not output_dir_path:
-        output_dir_path = f"{input_file_path}_{level}"
-        if not path.exists(output_dir_path):
-            mkdir(output_dir_path)
+        # split pdfs and write them
+        if not output_dir_path:
+            output_dir_path = f"{input_file_path}_{level}"
+            if not path.exists(output_dir_path):
+                mkdir(output_dir_path)
 
-    input_file = PdfFileReader(input_file_path) 
+        input_file = PdfFileReader(input_file_path) 
 
-    for l_s in level_store:
-        with open(path.join(output_dir_path, l_s['BookmarkTitle'] + ".pdf"), "wb") as out_file:
-            out_writer = PdfFileWriter()
-            for page_number in range(l_s['BookmarkPageNumber'], l_s['BookmarkLastPageNumber']):
-                # 0 based indexing of pages, compared to real-word page numbers
-                page_got = input_file.pages[page_number - 1]
-                out_writer.addPage(page_got)
+        for l_s in level_store:
+            with open(path.join(output_dir_path, l_s['BookmarkTitle'] + ".pdf"), "wb") as out_file:
+                out_writer = PdfFileWriter()
+                for page_number in range(l_s['BookmarkPageNumber'], l_s['BookmarkLastPageNumber']):
+                    # 0 based indexing of pages, compared to real-word page numbers
+                    page_got = input_file.pages[page_number - 1]
+                    out_writer.addPage(page_got)
 
-            out_writer.write(out_file)
+                out_writer.write(out_file)
 
 if __name__ == "__main__":
     try:
