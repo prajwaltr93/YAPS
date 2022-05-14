@@ -60,13 +60,14 @@ def create_meta_tree(level, iterator_obj, store):
         if level > level_got:
             break
 
-def pretty_print(level_data):
+def pretty_print(level_data, depth=1):
     for entity in level_data:
-        print(" " * 2 * entity['BookmarkLevel'], end=" ")
-        print("|", end="")
-        print("--", entity['BookmarkTitle'])
+        print(" " * 2 * depth, end=" ")
+        print("|__", entity['BookmarkTitle'])
         if entity['child']:
-            pretty_print(entity['child'])
+            print(" " * 2 * depth, end=" ")
+            print(":\\")
+            pretty_print(entity['child'], depth=depth+1)
 
 def level_order_traversal_tree(store, metadata, level_req):
     for index, entity in enumerate(metadata):
