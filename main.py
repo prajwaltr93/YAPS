@@ -61,14 +61,14 @@ def create_meta_tree(level, iterator_obj, store):
             break
 
 def pretty_print(level_data, depth=1, prefix=""):
-    prefix += " "
+    prefix += "  "
     for entity in level_data:
         print(prefix, end="")
         print("|__", entity['BookmarkTitle'])
         if entity['child']:
             prefix += ":"
             print(prefix, end="")
-            print("\\")
+            print("  \\")
             pretty_print(entity['child'], depth=depth+1, prefix=prefix)
             prefix = prefix[:-1]
 
