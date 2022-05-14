@@ -142,7 +142,7 @@ def main():
             title_prep = l_s['BookmarkTitle'].replace("/", " or ")
             with open(path.join(output_dir_path, title_prep + ".pdf"), "wb") as out_file:
                 out_writer = PdfFileWriter()
-                for page_number in range(l_s['BookmarkPageNumber'], l_s['BookmarkLastPageNumber']):
+                for page_number in range(l_s['BookmarkPageNumber'], l_s['BookmarkLastPageNumber'] + 1):
                     # 0 based indexing of pages, compared to real-word page numbers
                     page_got = input_file.pages[page_number - 1]
                     out_writer.addPage(page_got)
