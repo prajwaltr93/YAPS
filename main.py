@@ -115,9 +115,6 @@ def main():
 
     create_meta_tree(level=1, iterator_obj=iterator_obj, store=tree_store)
 
-    if args.verbose:
-        pretty_print(tree_store)
-
     # get chapter on args.level
     # level-order traversal
     level_store = []
