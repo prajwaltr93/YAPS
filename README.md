@@ -37,9 +37,53 @@ of your PDF file.
 pdftk input_file.pdf dump_data >> metadata.txt
 ```
 
+## Metadata Tree Creation and Level Order Traversal
+
+Given metadata of an PDF with chapter as bookmarks like below
+
+```
+  BookmarkBegin
+  BookmarkTitle: Preface
+  BookmarkLevel: 1
+  BookmarkPageNumber: 17
+  BookmarkBegin
+  BookmarkTitle: Who This Book Is For
+  BookmarkLevel: 2
+  BookmarkPageNumber: 18
+  BookmarkBegin
+  BookmarkTitle: Who This Book Is Not For
+  BookmarkLevel: 3
+  BookmarkPageNumber: 18
+  BookmarkBegin
+  BookmarkTitle: How This Book Is Organized
+  BookmarkLevel: 2
+  BookmarkPageNumber: 18
+```
+
+and a level to traverse i.e : 1, 2, ...
+
+Find chapters on that level with start page and end page numbers.
+
+This can be solved by simply doing a pass from top to bottom and selecting level's of intrest but
+we can also create a tree that represents each level and parent-child relationship (bookmarks within bookmarks).
+
+Latter approach has been choosen, for no particular advantage in space-time complexity but based on assumption that it might allow for future enhancements with respect to selecting levels. Fork of former approach is welcome XP.
+
+Following images illustrte bookmark metadata data as a Tree, bookmarks within bookmarks are shown as 
+parent-child nodes. 
+
+While selecting nodes from a given level last page number for that bookmark is selected from node 
+indicated by arrow emerging from it.
+
+![Level 1 Traversal](res/level1.png)
+
+![Level 2 Traversal](res/level2.png)
+
+![Level 3 Traversal](res/level3.png)
+
 ## TODO 
 
-- [ ] document tree creation and traversal
+- [x] document tree creation and traversal
 - [ ] fix page range bug
 - [ ] fix chapter names with special characters
 - [ ] refactor code 
