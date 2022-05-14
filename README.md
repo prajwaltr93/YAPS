@@ -88,4 +88,5 @@ indicated by arrow emerging from it.
 - [ ] fix chapter names with special characters
 - [ ] refactor code 
 - [ ] option to include metadata with split pdf's 
+- [ ] progress bar for writing PDF's
 - [ ] use multi- threading or processing to speed up writing pdf's
