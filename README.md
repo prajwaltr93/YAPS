@@ -81,10 +81,49 @@ indicated by arrow emerging from it.
 
 ![Level 3 Traversal](res/level3.png)
 
+## Chapters selected is shown if `-v` is selected
+
+```
+  |__ Contents
+  |__ Preface
+  |__ Chapter 1. Getting Started
+  :  \
+  :  |__ 1.1. Writing a Simple C++ Program
+  :  |__ 1.2. A First Look at Input/Output
+  :  |__ 1.3. A Word about Comments
+  :  |__ 1.4. Flow of Control
+  :  |__ 1.5. Introducing Classes
+  :  |__ 1.6. The Bookstore Program
+  :  |__ Chapter Summary
+  :  |__ Defined Terms
+  |__ Part I: The Basics
+  :  \
+  :  |__ Chapter 2. Variables and Basic Types
+  :  :  \
+  :  :  |__ 2.1. Primitive Built-in Types
+  :  :  |__ 2.2. Variables
+  :  :  |__ 2.3. Compound Types
+  :  :  |__ 2.4. const Qualifier
+  :  :  |__ 2.5. Dealing with Types
+  :  :  |__ 2.6. Defining Our Own Data Structures
+  :  :  |__ Chapter Summary
+  :  :  |__ Defined Terms
+  :  |__ Chapter 3. Strings, Vectors, and Arrays
+  :  :  \
+  :  :  |__ 3.1. Namespace using Declarations
+  :  :  |__ 3.2. Library string Type
+  :  :  |__ 3.3. Library vector Type
+  :  :  |__ 3.4. Introducing Iterators
+  :  :  |__ 3.5. Arrays
+  :  :  |__ 3.6. Multidimensional Arrays
+  :  :  |__ Chapter Summary
+  :  :  |__ Defined Terms
+```
+
 ## TODO 
 
 - [x] document tree creation and traversal
-- [ ] fix page range bug
+- [x] fix page range bug
 - [ ] fix chapter names with special characters
 - [ ] refactor code 
 - [ ] option to include metadata with split pdf's 
