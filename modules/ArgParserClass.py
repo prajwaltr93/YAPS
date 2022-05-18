@@ -11,9 +11,9 @@ class ArgParser:
                 }
             ],
             [
-                "--o", "--output-dir",
+                "-o", "--output_dir",
                 {
-                    "help" : "Store Split PDF's"
+                    "help" : "Path to store Split PDF's"
                 }
             ],
             [
@@ -28,8 +28,7 @@ class ArgParser:
                 "-v", "--verbose",
                 {
                     "help": "Print Parsed selected bookmark data",
-                    "type" : int,
-                    "default" : 1,
+                    "action" : "store_true"
                 }
             ],
             [
@@ -42,8 +41,8 @@ class ArgParser:
                 "-d", "--dryrun",
                 {
                     "help": "Parse Bookmark MetaData and Display selected. will not write PDF's",
-                    "type" : int,
-                    "default" : 1,
+                    "action" : "store_true",
+                    "default" : False
                 }
             ],
     ] 
