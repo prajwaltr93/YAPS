@@ -1,4 +1,3 @@
-import argparse
 from os import path, mkdir
 import re
 from operator import itemgetter
@@ -6,21 +5,11 @@ from PyPDF2 import PdfFileReader, PdfFileWriter
 
 from modules.IteratorClass import Iterator
 from functools import partial
+from modules.ArgParserClass import ArgParser
 
 first_element = itemgetter(0)
 
 find_int = re.compile("(\d+)")
-
-parser = argparse.ArgumentParser()
-parser.add_argument("input_file", help="path to PDF file")
-parser.add_argument("-o", "--output_dir", help="directory to store split PDF's")
-parser.add_argument("-l", "--level", help="level to use to split PDF's", type=int, default=1)
-parser.add_argument("-v", "--verbose", help="print created meta tree", action="store_true")
-parser.add_argument("metadata", help="path to metadata.txt")
-parser.add_argument("-d", "--dryrun", help="don't write pdf's, just show chapters traversed", action="store_true", default=False)
-
-def get_title(line):
-    return first_element(line.split(":"))
 
 def parse_metadata(file_path):
     store = []
@@ -93,22 +82,16 @@ def main():
     # driver code
 
     # sanity check arguments
-    args = parser.parse_args()
+    arg_parse_obj = ArgParser()
 
-    # check validity of arguments
+    arg_parse_obj.init_parser()
+
+    args = arg_parse_obj.verify_arguments()
+
     input_file_path = args.input_file
     output_dir_path = args.output_dir
     level = args.level 
     metadata_path = args.metadata
-
-    if not path.exists(input_file_path):
-        raise Exception("Invalid Input File Path")
-
-    if output_dir_path and not path.exists(output_dir_path):
-        raise Exception("Invalid output directory path")
-
-    if not path.exists(metadata_path):
-        raise Exception("Invalid Input File Path")
 
     # parse metadata
     metadata_structure, total_pages = parse_metadata(metadata_path) 
