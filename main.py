@@ -1,82 +1,10 @@
 from os import path, mkdir
-import re
-from operator import itemgetter
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
 from modules.IteratorClass import Iterator
 from functools import partial
 from modules.ArgParserClass import ArgParser
-
-first_element = itemgetter(0)
-
-find_int = re.compile("(\d+)")
-
-def parse_metadata(file_path):
-    store = []
-    total_pages = 0
-    with open(file_path, "r") as file_handle:
-
-        for line in file_handle:
-            if not total_pages and line.startswith("NumberOfPages"):
-                total_pages = first_element(find_int.findall(line))
-            if line.startswith("BookmarkBegin"):
-                store.append([])
-            if line.startswith("BookmarkTitle") or line.startswith("BookmarkPageNumber") or line.startswith("BookmarkLevel"):
-                store[-1].append(line.strip())
-
-    return store, total_pages
-
-def create_meta_tree(level, iterator_obj, store):
-
-    while iterator_obj.has_next:
-        d = iterator_obj.peek()
-
-        prep_create_meta_tree = partial(create_meta_tree, d['BookmarkLevel'], iterator_obj)
-
-        level_got = d['BookmarkLevel']
-
-        if level == level_got:
-            # same level
-            store.append(d)
-            next(iterator_obj)
-            prep_create_meta_tree(store)
-
-        if level < level_got:
-            store[-1]['child'].append(d)
-            next(iterator_obj)
-            prep_create_meta_tree(store[-1]['child'])
-
-        if level > level_got:
-            break
-
-def pretty_print(level_data, depth=1, prefix=""):
-    prefix += "  "
-    for entity in level_data:
-        print(prefix, end="")
-        print("|__", entity['BookmarkTitle'])
-        if entity['child']:
-            prefix += ":"
-            print(prefix, end="")
-            print("  \\")
-            pretty_print(entity['child'], depth=depth+1, prefix=prefix)
-            prefix = prefix[:-1]
-
-def level_order_traversal_tree(store, metadata, level_req):
-    for index, entity in enumerate(metadata):
-        level_got = entity['BookmarkLevel']
-
-        if level_got == level_req:
-            if store:
-                if "BookmarkLastPageNumber" not in store[-1]:
-                    store[-1]["BookmarkLastPageNumber"] = entity["BookmarkPageNumber"]
-            store.append(entity)
-
-        if level_got < level_req:
-            level_order_traversal_tree(store, entity['child'], level_req)
-            if store:
-                if "BookmarkLastPageNumber" not in store[-1]:
-                    if index <= (len(metadata) - 2): 
-                        store[-1]["BookmarkLastPageNumber"] = metadata[index + 1]["BookmarkPageNumber"]
+from modules.MetaDataClass import MetaData 
 
 def main():
     # driver code
@@ -94,24 +22,23 @@ def main():
     metadata_path = args.metadata
 
     # parse metadata
-    metadata_structure, total_pages = parse_metadata(metadata_path) 
+    metadata_structure, total_pages = MetaData.parse_metadata(metadata_path) 
 
     iterator_obj = iter(Iterator(meta_data=metadata_structure, total_pages=total_pages))
 
-    tree_store = []
-
-    create_meta_tree(level=1, iterator_obj=iterator_obj, store=tree_store)
+    tree_store = MetaData.create_meta_tree(level=1, iterator_obj=iterator_obj)
 
     # get chapter on args.level
     # level-order traversal
-    level_store = []
-    level_order_traversal_tree(level_store, tree_store, level)
+    # TODO : add decorator to combine following 3 lines
+    level_store = MetaData.level_order_traversal_tree(tree_store, level)
     if level_store:
         if "BookmarkLastPageNumber" not in level_store[-1]:
             level_store[-1]['BookmarkLastPageNumber'] = int(total_pages)
 
     if args.verbose:
-        pretty_print(level_store)
+        # TODO : override __repr__ MetaData
+        MetaData.pretty_print(level_store)
 
     if not args.dryrun:
         # split pdfs and write them
