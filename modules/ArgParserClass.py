@@ -65,12 +65,12 @@ class ArgParser:
         metadata_path = args.metadata
 
         if not path.exists(input_file_path):
-            raise Exception("Invalid Input File Path")
+            raise Exception("[ERROR] : Invalid Input File Path")
 
         if output_dir_path and not path.exists(output_dir_path):
-            raise Exception("Invalid output directory path")
+            raise Exception("[ERROR] : Invalid output directory path")
 
         if not path.exists(metadata_path):
-            raise Exception("Invalid Metadata File Path")
+            raise Exception("[ERROR] : Invalid Metadata File Path")
 
         return args
