@@ -15,13 +15,8 @@ def main():
 
     args = arg_parse_obj.verify_arguments()
 
-    input_file_path = args.input_file
-    output_dir_path = args.output_dir
-    level = args.level 
-    metadata_path = args.metadata
-
     # parse metadata
-    metadata_structure, total_pages = MetaData.parse_metadata(metadata_path) 
+    metadata_structure, total_pages = MetaData.parse_metadata(args.metadata) 
 
     iterator_obj = iter(Iterator(meta_data=metadata_structure, total_pages=total_pages))
 
@@ -30,7 +25,7 @@ def main():
     # get chapter on args.level
     # level-order traversal
     # TODO : add decorator to combine following 3 lines
-    level_store = MetaData.level_order_traversal_tree(tree_store, level)
+    level_store = MetaData.level_order_traversal_tree(tree_store, args.level)
     if level_store:
         if "BookmarkLastPageNumber" not in level_store[-1]:
             level_store[-1]['BookmarkLastPageNumber'] = int(total_pages)
@@ -41,16 +36,16 @@ def main():
 
     if not args.dryrun:
         # split pdfs and write them
-        if not output_dir_path:
-            output_dir_path = f"{input_file_path}_{level}"
-            if not path.exists(output_dir_path):
-                mkdir(output_dir_path)
+        if not args.output_dir:
+            args.output_dir = f"{args.input_file}_{args.level}"
+            if not path.exists(args.output_dir):
+                mkdir(args.output_dir)
 
-        input_file = PdfFileReader(input_file_path) 
+        input_file = PdfFileReader(args.input_file) 
 
         for l_s in level_store:
             title_prep = l_s['BookmarkTitle'].replace("/", " or ")
-            with open(path.join(output_dir_path, title_prep + ".pdf"), "wb") as out_file:
+            with open(path.join(args.output_dir, title_prep + ".pdf"), "wb") as out_file:
                 out_writer = PdfFileWriter()
                 for page_number in range(l_s['BookmarkPageNumber'], l_s['BookmarkLastPageNumber'] + 1):
                     # 0 based indexing of pages, compared to real-word page numbers
