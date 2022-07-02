@@ -2,7 +2,6 @@ from os import path, mkdir
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
 from modules.IteratorClass import Iterator
-from functools import partial
 from modules.ArgParserClass import ArgParser
 from modules.MetaDataClass import MetaData 
 
