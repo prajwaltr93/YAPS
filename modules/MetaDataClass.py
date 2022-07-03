@@ -69,6 +69,16 @@ class MetaData:
                             store[-1]["BookmarkLastPageNumber"] = metadata[index + 1]["BookmarkPageNumber"]
 
         return store
+    
+    @staticmethod
+    def wrapped_level_order_traversal(metadata, level_req, total_pages):
+        level_store = MetaData.level_order_traversal_tree(metadata, level_req)
+        if level_store:
+            if "BookmarkLastPageNumber" not in level_store[-1]:
+                level_store[-1]['BookmarkLastPageNumber'] = int(total_pages)
+    
+        return level_store
+
 
     @staticmethod
     def pretty_print(level_data, depth=1, prefix=""):

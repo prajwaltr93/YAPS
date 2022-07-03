@@ -24,11 +24,7 @@ def main():
 
     # get chapter on args.level
     # level-order traversal
-    # TODO : add decorator to combine following 3 lines
-    level_store = MetaData.level_order_traversal_tree(tree_store, args.level)
-    if level_store:
-        if "BookmarkLastPageNumber" not in level_store[-1]:
-            level_store[-1]['BookmarkLastPageNumber'] = int(total_pages)
+    level_store = MetaData.wrapped_level_order_traversal(tree_store, args.level, total_pages)
 
     if args.verbose:
         # TODO : override __repr__ MetaData
