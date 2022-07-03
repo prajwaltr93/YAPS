@@ -27,7 +27,6 @@ def main():
     level_store = MetaData.wrapped_level_order_traversal(tree_store, args.level, total_pages)
 
     if args.verbose:
-        # TODO : override __repr__ MetaData
         MetaData.pretty_print(level_store)
 
     if not args.dryrun:
