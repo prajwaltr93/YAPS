@@ -22,7 +22,7 @@ def main():
 
     tree_store = MetaData.create_meta_tree(level=1, iterator_obj=iterator_obj)
 
-    # get chapter on args.level
+    # get chapters on args.level
     # level-order traversal
     level_store = MetaData.wrapped_level_order_traversal(tree_store, args.level, total_pages)
 
