@@ -1,6 +1,7 @@
-from operator import itemgetter
 import re
 from functools import partial
+from html import unescape
+from operator import itemgetter
 
 first_element = itemgetter(0)
 
@@ -85,7 +86,7 @@ class MetaData:
         prefix += "  "
         for entity in level_data:
             print(prefix, end="")
-            print("|__", entity['BookmarkTitle'])
+            print("|__", unescape(entity['BookmarkTitle']))
             if entity['child']:
                 prefix += ":"
                 print(prefix, end="")
