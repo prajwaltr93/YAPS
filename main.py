@@ -1,9 +1,8 @@
-from os import path, mkdir
-from PyPDF2 import PdfFileReader, PdfFileWriter
-
+from os import path
 from modules.IteratorClass import Iterator
 from modules.ArgParserClass import ArgParser
 from modules.MetaDataClass import MetaData 
+from modules.PDFHandlerClass import PDFHandler
 
 def main():
     # driver code
@@ -31,22 +30,11 @@ def main():
 
     if not args.dryrun:
         # split pdfs and write them
-        if not args.output_dir:
-            args.output_dir = f"{args.input_file}_{args.level}"
-            if not path.exists(args.output_dir):
-                mkdir(args.output_dir)
+        pdf_handler = PDFHandler(output_path=args.output_dir, level_store=level_store, input_file=args.input_file, level=args.level)
 
-        input_file = PdfFileReader(args.input_file) 
-
-        for l_s in level_store:
-            title_prep = l_s['BookmarkTitle'].replace("/", " or ")
-            with open(path.join(args.output_dir, title_prep + ".pdf"), "wb") as out_file:
-                out_writer = PdfFileWriter()
-                for page_number in range(l_s['BookmarkPageNumber'], l_s['BookmarkLastPageNumber'] + 1):
-                    # 0 based indexing of pages, compared to real-word page numbers
-                    page_got = input_file.pages[page_number - 1]
-                    out_writer.addPage(page_got)
-
+        for title_prep, page_range in pdf_handler:
+            with open(path.join(pdf_handler.output_path, title_prep + ".pdf"), "wb") as out_file:
+                out_writer = pdf_handler.write_page_range_to_file(page_range=page_range)
                 out_writer.write(out_file)
 
 if __name__ == "__main__":

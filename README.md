@@ -124,9 +124,9 @@ indicated by arrow emerging from it.
 
 - [x] document tree creation and traversal
 - [x] fix page range bug
-- [ ] fix chapter names with special characters
-- [ ] refactor code 
-- [ ] option to include metadata with split pdf's 
+- [x] fix chapter names with special characters
+- [x] fix output directory path handling
 - [ ] progress bar for writing PDF's
+- [ ] refactor code 
 - [ ] use multi- threading or processing to speed up writing pdf's
-- [ ] fix output directory path handling
+- [ ] option to include metadata with split pdf's 
