@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from os import path
 from modules.IteratorClass import Iterator
 from modules.ArgParserClass import ArgParser

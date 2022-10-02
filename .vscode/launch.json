@@ -8,12 +8,11 @@
             "console": "internalConsole",
             "justMyCode": true,
             "args": [
-                "/home/stark/C++_Primer.pdf",
-                "c++meta.txt",
+                "../FluentPython.pdf",
+                "meta.txt",
                 "-l",
-                "3",
+                "2",
                 "--verbose",
-                "-d"
             ]
         }
     ]
